@@ -133,11 +133,9 @@ module Control_Unit
 
 logic [1:0] alu_op;
 
-always_comb
-begin
-	Main_Decoder Main_D(opcode, memto_reg, mem_write, branch, alu_src, reg_dst, reg_write, alu_op, jump);
-	ALU_Decoder ALU_D(funct, alu_op, alu_control);
-end
+
+Main_Decoder Main_D(opcode, memto_reg, mem_write, branch, alu_src, reg_dst, reg_write, alu_op, jump);
+ALU_Decoder ALU_D(funct, alu_op, alu_control);
 
 endmodule
 
@@ -167,4 +165,46 @@ begin
 	zero = (alu_result === 32'b0)? 1 : 0;
 end
 
+endmodule
+
+module Sign_Extend
+(
+	input logic [31:0] input16, 
+	output logic [31:0] output32
+);
+always_comb
+begin
+	output32[31] = input16[15];
+	output32[30] = input16[15];
+	output32[29] = input16[15];
+	output32[28] = input16[15];
+	output32[27] = input16[15];
+	output32[26] = input16[15];
+	output32[25] = input16[15];
+	output32[24] = input16[15];
+	output32[23] = input16[15];
+	output32[22] = input16[15];
+	output32[21] = input16[15];
+	output32[20] = input16[15];
+	output32[19] = input16[15];
+	output32[18] = input16[15];
+	output32[17] = input16[15];
+	output32[16] = input16[15];
+	output32[15] = input16[15];
+	output32[14] = input16[14];
+	output32[13] = input16[13];
+	output32[12] = input16[12];
+	output32[11] = input16[11];
+	output32[10] = input16[10];
+	output32[9] = input16[9];
+	output32[8] = input16[8];
+	output32[7] = input16[7];
+	output32[6] = input16[6];
+	output32[5] = input16[5];
+	output32[4] = input16[4];
+	output32[3] = input16[3];
+	output32[2] = input16[2];
+	output32[1] = input16[1];
+	output32[0] = input16[0];
+end
 endmodule
