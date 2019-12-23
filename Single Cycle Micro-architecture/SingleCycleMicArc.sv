@@ -208,3 +208,87 @@ begin
 	output32[0] = input16[0];
 end
 endmodule
+
+module adder
+(
+	input logic [31:0] input_a,
+	input logic [31:0] input_b,
+	output logic [31:0] a_output
+);
+
+always_comb
+begin
+	a_output = input_a + input_b;
+end
+
+endmodule
+
+module mux32
+(
+	input logic [31:0] input_0,
+	input logic [31:0] input_1,
+	input logic selector, 
+	output logic [31:0] m_output
+);
+
+always_comb
+begin
+	case(selector)
+		1'b0: m_output = input_0;
+		1'b1: m_output = input_1;
+	endcase
+end
+endmodule 
+
+module mux5
+(
+	input logic [4:0] input_0,
+	input logic [4:0] input_1,
+	input logic selector, 
+	output logic [4:0] m_output
+);
+
+always_comb
+begin
+	case(selector)
+		1'b0: m_output = input_0;
+		1'b1: m_output = input_1;
+	endcase
+end
+endmodule  
+
+module Register_File
+(
+	input logic [4:0] a1,
+	input logic [4:0] a2,
+	input logic [4:0] a3,
+	input logic [31:0] wd3,
+	input logic reg_write,
+	input logic clk,
+	output logic [31:0] rd1,
+	output logic [31:0] rd2
+);
+
+reg [31:0] registers;
+
+initial
+begin
+	registers[0] = 0;
+end
+
+always @(negedge clk)
+begin
+	rd1 = registers[a1];
+	rd2 = registers[a2];
+end
+
+always @(posedge clk)
+begin
+	if (reg_write)
+	begin
+		registers[a3] = wd3;
+		registers[0] = 0;
+	end
+end
+
+endmodule 
