@@ -169,7 +169,7 @@ endmodule
 
 module Sign_Extend
 (
-	input logic [31:0] input16, 
+	input logic [15:0] input16, 
 	output logic [31:0] output32
 );
 always_comb
