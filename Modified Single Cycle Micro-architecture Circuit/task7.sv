@@ -51,19 +51,19 @@ output logic jump,
 output logic [1:0] aluop,
 output logic readWriteType,chooseExtend); //Added By Belal
 
-	logic [8:0] controls;
+	logic [11:0] controls;
 	assign {regwrite, regdst, alusrc, branch, memwrite,
 	memtoreg, jump, aluop,readWriteType,chooseExtend} = controls; //Added By Belal
 	always_comb
 	case(op)
-	6'b000000: controls <= 9'b11000001000; // RTYPE
-	6'b100011: controls <= 9'b10100100000; // LW
-	6'b101011: controls <= 9'b00101000000; // SW
-	6'b000100: controls <= 9'b00010000100; // BEQ
-	6'b001000: controls <= 9'b10100000000; // ADDI
-	6'b000010: controls <= 9'b00000010000; // J
-	6'b100000: controls <= 9'b10100100011; // LB Added By Belal as LW but readWriteType,chooseExtend  1
-	default: controls <= 9'bxxxxxxxxx; // illegal op
+	6'b000000: controls <= 11'b11000001000; // RTYPE
+	6'b100011: controls <= 11'b10100100000; // LW
+	6'b101011: controls <= 11'b00101000000; // SW
+	6'b000100: controls <= 11'b00010000100; // BEQ
+	6'b001000: controls <= 11'b10100000000; // ADDI
+	6'b000010: controls <= 11'b00000010000; // J
+	6'b100000: controls <= 11'b10100100011; // LB Added By Belal as LW but readWriteType,chooseExtend  1
+	default: controls <= 11'bxxxxxxxxx; // illegal op
 	endcase
 endmodule
 
