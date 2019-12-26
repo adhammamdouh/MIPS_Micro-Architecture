@@ -21,4 +21,12 @@ bltz rs, label | jal label | slti rt, rs, imm | ori rt, rs, imm | lui rt, imm
 
 5 | 6 | 7 | 8 | 9
 --- | --- | --- | --- | ---
-lb rt, imm(rs) | jr rs | sb rt, imm(rs) s | sll rd, rt, shamt | rt, rs
+lb rt, imm(rs) | jr rs | sb rt, imm(rs) s | sll rd, rt, shamt | sllv rd, rt, rs
+
+### Assigned Tasks ###
+
+ID | Member | Task
+--- | --- | ---
+20170034 | Ahmed Nasr Eldardery | lui rt, imm
+20170039 | Adham Mamdouh Mohammed | sllv rd, rt, rs
+20170077 | Belal Hamdy Ezzat | sb rt, imm(rs)
