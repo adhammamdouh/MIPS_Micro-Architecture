@@ -55,7 +55,7 @@ output logic alusrca);
 	6'b000100: controls <= 10'b0001000010; // BEQ
 	6'b001000: controls <= 10'b1010000000; // ADDI
 	6'b000010: controls <= 10'b0000001000; // J
-	6'b001111: controls <= 10'b1100000111; // LUI //#EDITED LINE
+	6'b001111: controls <= 10'b1100000111; // LUI
 	default: controls <= 10'bxxxxxxxxxx; // illegal op
 	endcase
 endmodule
@@ -67,13 +67,14 @@ module aludec(input logic [5:0] funct,
 	case(aluop)
 	2'b00: alucontrol <= 3'b010; // add (for lw/sw/addi)
 	2'b01: alucontrol <= 3'b110; // sub (for beq)
-	2'b11: alucontrol <= 3'b011; ///sll (for lui) //#EDITED LINE
+	2'b11: alucontrol <= 3'b100; // sllv (for lui)
 	default: case(funct) // R-type instructions
 		6'b100000: alucontrol <= 3'b010; // add
 		6'b100010: alucontrol <= 3'b110; // sub
 		6'b100100: alucontrol <= 3'b000; // and
 		6'b100101: alucontrol <= 3'b001; // or
 		6'b101010: alucontrol <= 3'b111; // slt
+		6'b000100: alucontrol <= 3'b100; // sllv
 		default: alucontrol <= 3'bxxx; // ???
 		endcase
 	endcase
@@ -195,8 +196,8 @@ module alu(input logic[31:0] srca, srcb,
 			3'b000: aluout <= srca & srcb;
 			3'b001: aluout <= srca | srcb;
 			3'b010: aluout <= srca + srcb;
-			3'b011: aluout <= srcb << srca[4:0];  //#EDITED LINE
-			//3'b100:
+			//3'b011:
+			3'b100: aluout <= srcb << srca[4:0];  //#EDITED LINE
 			//3'b101:
 			3'b110: aluout <= srca - srcb;
 			3'b111: aluout <= {31'b0, sub[31]};
