@@ -4,7 +4,7 @@ module mips(input logic clk, reset,
 	output logic memwrite,
 	output logic [31:0] aluout, writedata,
 	input logic [31:0] readdata,
-	output logic chooseExtend); //Added By Belal
+	output logic readWriteType); //Added By Belal
 	
 	logic memtoreg, alusrc, regdst,
 	regwrite, jump, pcsrc, zero;
@@ -14,14 +14,13 @@ module mips(input logic clk, reset,
 	memtoreg, memwrite, pcsrc,
 	alusrc, regdst, regwrite, jump,
 	alucontrol,
-	chooseExtend); //Added By Belal
+	readWriteType); //Added By Belal
 	
 	datapath dp(clk, reset, memtoreg, pcsrc,
 	alusrc, regdst, regwrite, jump,
 	alucontrol,
 	zero, pc, instr,
-	aluout, writedata, readdata,
-	chooseExtend); //Added By Belal
+	aluout, writedata, readdata); //Added By Belal
 	
 endmodule
 module controller(input logic [5:0] op, funct,
@@ -31,13 +30,13 @@ module controller(input logic [5:0] op, funct,
 	output logic regdst, regwrite,
 	output logic jump,
 	output logic [2:0] alucontrol,
-	output logic chooseExtend); //Added By Belal
+	output logic readWriteType); //Added By Belal
 	
 	logic [1:0] aluop;
 	logic branch;
 	maindec md(op, memtoreg, memwrite, branch,
 	alusrc, regdst, regwrite, jump, aluop,
-	chooseExtend); //Added By Belal
+	readWriteType); //Added By Belal
 	
 	aludec ad(funct, aluop, alucontrol);
 	assign pcsrc = branch & zero;
@@ -49,11 +48,11 @@ output logic branch, alusrc,
 output logic regdst, regwrite,
 output logic jump,
 output logic [1:0] aluop,
-output logic chooseExtend); //Added By Belal
+output logic readWriteType); //Added By Belal
 
 	logic [11:0] controls;
 	assign {regwrite, regdst, alusrc, branch, memwrite,
-	memtoreg, jump, aluop,chooseExtend} = controls; //Added By Belal
+	memtoreg, jump, aluop,readWriteType} = controls; //Added By Belal
 	always_comb
 	case(op)
 	6'b000000: controls <= 10'b1100000100; // RTYPE
@@ -62,8 +61,8 @@ output logic chooseExtend); //Added By Belal
 	6'b000100: controls <= 10'b0001000010; // BEQ
 	6'b001000: controls <= 10'b1010000000; // ADDI
 	6'b000010: controls <= 10'b0000001000; // J
-	6'b100000: controls <= 10'b1010010001; // LB Added By Belal as LW but readWriteType,chooseExtend  1
-	default: controls <= 10'bxxxxxxxxxx; // illegal op
+	6'b101000: controls <= 10'b0010100001; // SB Added By Belal as SW but readWriteType  1
+	default: controls <= 10'bxxxxxxxxx; // illegal op
 	endcase
 endmodule
 
